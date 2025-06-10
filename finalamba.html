@@ -1,0 +1,760 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Portofolio KanzzXD</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
+    <style>
+        :root {
+            --phone-bg-light: #ffffff;
+            --phone-bg-dark: #1f2937;
+            --text-light: #1c1c1e;
+            --text-dark: #f3f4f6;
+            --modal-bg-light: #f9fafb;
+            --modal-bg-dark: #111827;
+            --header-bg-light: #f8f8f8;
+            --header-bg-dark: #1a202c;
+            --border-light: #e5e7eb;
+            --border-dark: #3a3a3c; /* Warna border lebih soft di dark mode */
+            --wallpaper-url: url('https://d.top4top.io/p_34324bxsf0.jpeg');
+            --yt-icon-color-light: #606060;
+            --yt-icon-color-dark: #aaaaaa;
+            --yt-text-secondary-light: #606060;
+            --yt-text-secondary-dark: #aaaaaa;
+            --yt-border-light: #e0e0e0;
+            --yt-border-dark: #3e3e3e;
+            --yt-subscribe-bg-light: #cc0000;
+            --yt-subscribe-bg-dark: #ff0000;
+            --music-accent-light: #3b82f6; /* Biru */
+            --music-accent-dark: #60a5fa; /* Biru lebih terang */
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f0f2f5;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            padding: 20px;
+            overflow-x: hidden;
+            transition: background-color 0.3s ease;
+        }
+        .phone-container {
+            width: 375px;
+            height: 667px;
+            max-width: 100%;
+            max-height: calc(100vh - 40px);
+            background-color: #1c1c1e;
+            border-radius: 40px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.3), 0 0 0 8px #000;
+            padding: 18px;
+            position: relative;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+        }
+        .phone-screen {
+            background-color: var(--phone-bg-light);
+            width: 100%;
+            border-radius: 22px;
+            position: relative;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            transition: background-color 0.3s ease;
+            flex-grow: 1;
+            min-height: 0;
+        }
+        .phone-screen.dark-mode {
+            background-color: var(--modal-bg-dark); /* Latar belakang lebih gelap */
+        }
+
+        .status-bar {
+            height: 40px;
+            flex-shrink: 0;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 20px;
+            background-color: var(--header-bg-light);
+            border-bottom: 1px solid var(--border-light);
+            z-index: 10;
+            color: var(--text-light);
+            transition: background-color 0.3s ease, border-color 0.3s ease, color 0.3s ease;
+        }
+        .dark-mode .status-bar {
+            background-color: var(--header-bg-dark);
+            border-bottom-color: var(--border-dark);
+            color: var(--text-dark);
+        }
+        .status-bar .time { font-weight: 600; font-size: 0.9rem; }
+        .status-bar .icons span { margin-left: 8px; font-size: 0.9rem; }
+
+        .app-grid-container {
+            flex-grow: 1;
+            padding: 20px;
+            overflow-y: auto;
+            background-image: var(--wallpaper-url);
+            background-size: cover;
+            background-position: center;
+            position: relative;
+        }
+        .app-grid-container::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0,0,0,0);
+            transition: background-color 0.3s ease;
+            z-index: 0;
+        }
+        .dark-mode .app-grid-container::before {
+            background-color: rgba(0,0,0,0.3);
+        }
+
+        .app-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 25px;
+            justify-items: center;
+            position: relative;
+            z-index: 1;
+        }
+        .app-icon {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+            cursor: pointer;
+            padding: 8px;
+            border-radius: 12px;
+            transition: background-color 0.2s ease-in-out;
+            width: 70px;
+        }
+        .app-icon:hover {
+            background-color: rgba(255, 255, 255, 0.2);
+        }
+        .dark-mode .app-icon:hover {
+            background-color: rgba(0, 0, 0, 0.3);
+        }
+        .app-icon .icon-bg {
+            width: 56px;
+            height: 56px;
+            border-radius: 15px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-bottom: 5px;
+            font-size: 1.6rem;
+            color: white;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+        }
+        .app-icon span {
+            font-size: 0.7rem;
+            color: #fff;
+            text-shadow: 0 1px 2px rgba(0,0,0,0.5);
+            margin-top: 4px;
+            word-break: break-word;
+        }
+        .dark-mode .app-icon span {
+            color: var(--text-dark);
+        }
+
+        .app-modal {
+            position: absolute;
+            top: 40px;
+            left: 0;
+            width: 100%;
+            height: calc(100% - 40px - 50px);
+            background-color: var(--modal-bg-light);
+            z-index: 100;
+            display: flex;
+            flex-direction: column;
+            transform: translateX(100%);
+            transition: transform 0.3s ease-in-out, background-color 0.3s ease;
+            overflow: hidden;
+        }
+        .dark-mode .app-modal {
+            background-color: var(--modal-bg-dark);
+        }
+        .dark-mode #about-phone-app .app-content {
+            background-color: #000; /* Latar belakang hitam pekat untuk "Tentang Ponsel" */
+        }
+        .app-modal.active {
+            transform: translateX(0);
+        }
+        .app-header {
+            height: 50px;
+            flex-shrink: 0;
+            display: flex;
+            align-items: center;
+            padding: 0 15px;
+            background-color: var(--header-bg-light);
+            border-bottom: 1px solid var(--border-light);
+            color: var(--text-light);
+            transition: background-color 0.3s ease, border-color 0.3s ease, color 0.3s ease;
+            z-index: 110;
+            position: relative;
+        }
+        .dark-mode .app-header {
+            background-color: var(--header-bg-dark);
+            border-bottom-color: var(--border-dark);
+            color: var(--text-dark);
+        }
+        .app-header .back-button-app {
+            background: none;
+            border: none;
+            font-size: 1.2rem;
+            cursor: pointer;
+            margin-right: 10px;
+            color: #007aff;
+            padding: 5px;
+        }
+        .dark-mode .app-header .back-button-app {
+            color: #0a84ff;
+        }
+        .app-header .app-title { font-weight: 600; font-size: 1rem; }
+
+        .app-content {
+            flex-grow: 1;
+            overflow-y: auto;
+            color: var(--text-light);
+            transition: color 0.3s ease;
+        }
+        .dark-mode .app-content { color: var(--text-dark); }
+        
+        #kanzzai-app .app-content, #youtube-app .app-content, #music-app .app-content { display: flex; flex-direction: column; padding: 0; overflow: hidden; }
+        .bottom-nav-bar { height: 50px; flex-shrink: 0; background-color: var(--header-bg-light); border-top: 1px solid var(--border-light); display: flex; justify-content: space-around; align-items: center; z-index: 10; transition: background-color 0.3s ease, border-color 0.3s ease; }
+        .dark-mode .bottom-nav-bar { background-color: var(--header-bg-dark); border-top-color: var(--border-dark); }
+        .nav-button { background: none; border: none; font-size: 1.5rem; color: #8e8e93; cursor: pointer; padding: 10px; transition: color 0.2s; flex-grow: 1; display: flex; justify-content: center; align-items: center; }
+        .nav-button:hover, .nav-button.active { color: #007aff; }
+        .dark-mode .nav-button { color: #8e8e93; }
+        .dark-mode .nav-button:hover, .dark-mode .nav-button.active { color: #0a84ff; }
+        
+        .image-modal { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background-color: rgba(0,0,0,0.85); display: flex; justify-content: center; align-items: center; z-index: 2000; opacity: 0; visibility: hidden; transition: opacity 0.3s ease, visibility 0.3s ease; }
+        .image-modal.active { opacity: 1; visibility: visible; }
+        .image-modal img { max-width: 90%; max-height: 90%; border-radius: 8px; }
+        .image-modal .close-image-modal { position: absolute; top: 20px; right: 20px; font-size: 2rem; color: white; cursor: pointer; background: none; border: none; }
+        
+        #about-app .app-content, #gallery-app .app-content, #contact-app .app-content, #settings-app .app-content { padding: 20px; }
+
+        /* Style untuk Setelan */
+        #settings-app .app-content { padding: 20px 0; }
+        .settings-item { display: flex; justify-content: space-between; align-items: center; padding: 15px 20px; border-bottom: 1px solid var(--border-light); cursor:pointer; }
+        .dark-mode .settings-item { border-bottom-color: var(--border-dark); }
+        .settings-item span { flex-grow: 1; }
+        .toggle-switch { position: relative; display: inline-block; width: 50px; height: 28px; }
+        .toggle-switch input { opacity: 0; width: 0; height: 0; }
+        .slider { position: absolute; cursor: pointer; top: 0; left: 0; right: 0; bottom: 0; background-color: #ccc; transition: .4s; border-radius: 28px; }
+        .slider:before { position: absolute; content: ""; height: 20px; width: 20px; left: 4px; bottom: 4px; background-color: white; transition: .4s; border-radius: 50%; }
+        input:checked + .slider { background-color: #007aff; }
+        input:checked + .slider:before { transform: translateX(22px); }
+
+        /* === GAYA BARU: TENTANG PONSEL (lebih detail) === */
+        #about-phone-app .app-content { padding: 12px; }
+        .about-phone-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-top: 10px; margin-bottom: 20px; }
+        .os-version-card {
+            grid-column: 1 / -1;
+            background: #2c2c2e;
+            color: white;
+            padding: 16px;
+            border-radius: 18px;
+            display: flex;
+            align-items: center;
+            gap: 16px;
+        }
+        .os-version-card .os-logo {
+            font-size: 3rem;
+            font-weight: bold;
+            color: #f857a6;
+            width: 80px;
+            height: 80px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: linear-gradient(135deg, rgba(248,87,166,0.2), rgba(255,88,88,0.2));
+            border-radius: 12px;
+        }
+        .os-version-card .os-info h2 { font-size: 1.2rem; font-weight: 600; }
+        .os-version-card .os-info p { font-size: 0.9rem; opacity: 0.7; }
+
+        .info-card {
+            background-color: #2c2c2e;
+            padding: 12px;
+            border-radius: 18px;
+            color: var(--text-dark);
+        }
+        .info-card .label { font-size: 0.8rem; color: #8e8e93; margin-bottom: 4px; }
+        .info-card .value { font-size: 0.9rem; font-weight: 500; }
+        .info-card.storage .value { display: flex; flex-direction: column; gap: 4px; }
+        .storage-bar { width: 100%; height: 5px; background-color: #3a3a3c; border-radius: 2.5px; margin-top: 4px; overflow: hidden; }
+        .storage-bar-fill { width: 69.3%; /* 88.7 / 128 */ height: 100%; background-color: #0a84ff; border-radius: 2.5px; }
+
+        .spec-list {
+            background-color: #2c2c2e;
+            border-radius: 18px;
+            overflow: hidden;
+        }
+        .spec-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 12px 16px;
+            border-bottom: 1px solid #3a3a3c;
+        }
+        .spec-item:last-child { border-bottom: none; }
+        .spec-item .spec-label { font-size: 0.9rem; color: #8e8e93; }
+        .spec-item .spec-value { font-size: 0.9rem; color: var(--text-dark); text-align: right; }
+        .spec-item i.fa-chevron-right { color: #555; }
+        /* Style untuk mode terang di tentang ponsel */
+        .dark-mode #about-phone-app .info-card, 
+        .dark-mode #about-phone-app .spec-list, 
+        .dark-mode #about-phone-app .os-version-card {
+            background-color: #2c2c2e;
+        }
+        .phone-screen:not(.dark-mode) #about-phone-app .app-content { background-color: #f2f2f7; }
+        .phone-screen:not(.dark-mode) #about-phone-app .info-card, 
+        .phone-screen:not(.dark-mode) #about-phone-app .spec-list, 
+        .phone-screen:not(.dark-mode) #about-phone-app .os-version-card {
+            background-color: var(--phone-bg-light);
+        }
+        .phone-screen:not(.dark-mode) #about-phone-app .info-card .label,
+        .phone-screen:not(.dark-mode) #about-phone-app .spec-item .spec-label {
+            color: #666;
+        }
+        .phone-screen:not(.dark-mode) #about-phone-app .info-card .value,
+        .phone-screen:not(.dark-mode) #about-phone-app .spec-item .spec-value {
+            color: var(--text-light);
+        }
+        .phone-screen:not(.dark-mode) #about-phone-app .os-version-card { color: var(--text-light); }
+        .phone-screen:not(.dark-mode) #about-phone-app .os-version-card .os-info p { opacity: 0.7; }
+        .phone-screen:not(.dark-mode) #about-phone-app .storage-bar { background-color: #e5e5ea; }
+        .phone-screen:not(.dark-mode) #about-phone-app .spec-item { border-bottom-color: #e5e7eb; }
+
+        /* Semua style aplikasi lainnya (chat, music, youtube) dikembalikan */
+        .chat-messages { flex-grow: 1; overflow-y: auto; padding: 10px; display: flex; flex-direction: column; gap: 10px; }
+        .message { padding: 8px 12px; border-radius: 18px; max-width: 75%; line-height: 1.4; word-wrap: break-word; }
+        .message.user { background-color: #007aff; color: white; align-self: flex-end; border-bottom-right-radius: 4px;}
+        .message.ai { background-color: #e5e5ea; color: black; align-self: flex-start; border-bottom-left-radius: 4px;}
+        .dark-mode .message.user { background-color: #0a84ff; }
+        .dark-mode .message.ai { background-color: #4b5563; color: var(--text-dark); }
+        .chat-input-area { flex-shrink: 0; display: flex; align-items: center; padding: 10px; border-top: 1px solid var(--border-light); background-color: var(--header-bg-light); }
+        .dark-mode .chat-input-area { border-top-color: var(--border-dark); background-color: var(--header-bg-dark); }
+        .chat-input-area input { flex-grow: 1; border: 1px solid var(--border-light); border-radius: 18px; padding: 8px 15px; font-size: 0.9rem; outline: none; background-color: var(--phone-bg-light); color: var(--text-light); }
+        .dark-mode .chat-input-area input { background-color: #4b5563; border-color: #6b7280; color: var(--text-dark); }
+        .chat-input-area button { background-color: #007aff; color: white; border: none; border-radius: 50%; width: 36px; height: 36px; margin-left: 10px; font-size: 1rem; cursor: pointer; display: flex; justify-content: center; align-items: center; flex-shrink: 0; }
+        .dark-mode .chat-input-area button { background-color: #0a84ff; }
+        #music-app .app-content { background: linear-gradient(to bottom, var(--modal-bg-dark) 0%, var(--modal-bg-light) 100%); }
+        .dark-mode #music-app .app-content { background: linear-gradient(to bottom, #2c3e50 0%, var(--modal-bg-dark) 100%); }
+        .music-player-container { padding: 24px; flex-shrink: 0; text-align: center; color: var(--text-light); }
+        .dark-mode .music-player-container { color: var(--text-dark); }
+        #music-album-art { width: 180px; height: 180px; border-radius: 12px; margin: 0 auto 16px; object-fit: cover; box-shadow: 0 10px 25px -5px rgba(0,0,0,0.2), 0 8px 10px -6px rgba(0,0,0,0.2); background-color: #e0e0e0; }
+        .dark-mode #music-album-art { background-color: #374151; }
+        #music-song-title { font-size: 1.25rem; font-weight: 600; margin-bottom: 4px; }
+        #music-song-artist { font-size: 0.9rem; color: var(--yt-text-secondary-light); margin-bottom: 16px; }
+        .dark-mode #music-song-artist { color: var(--yt-text-secondary-dark); }
+        .music-progress-container { width: 100%; height: 6px; background-color: rgba(0,0,0,0.1); border-radius: 3px; cursor: pointer; margin-bottom: 8px; }
+        .dark-mode .music-progress-container { background-color: rgba(255,255,255,0.1); }
+        #music-progress-bar { width: 0%; height: 100%; background-color: var(--music-accent-light); border-radius: 3px; }
+        .dark-mode #music-progress-bar { background-color: var(--music-accent-dark); }
+        .music-time-container { display: flex; justify-content: space-between; font-size: 0.75rem; color: var(--yt-text-secondary-light); margin-bottom: 12px; }
+        .dark-mode .music-time-container { color: var(--yt-text-secondary-dark); }
+        .music-controls { display: flex; justify-content: center; align-items: center; gap: 20px; }
+        .music-control-btn { background: none; border: none; color: var(--text-light); font-size: 1.2rem; cursor: pointer; transition: transform 0.2s, color 0.2s; }
+        .dark-mode .music-control-btn { color: var(--text-dark); }
+        .music-control-btn.active { color: var(--music-accent-light); }
+        .dark-mode .music-control-btn.active { color: var(--music-accent-dark); }
+        #music-play-pause-btn { font-size: 2.2rem; width: 50px; height: 50px; background-color: var(--music-accent-light); color: white; border-radius: 50%; display: flex; justify-content: center; align-items: center; }
+        .dark-mode #music-play-pause-btn { background-color: var(--music-accent-dark); }
+        #music-play-pause-btn .fa-play { margin-left: 4px; }
+        .playlist-container { flex-grow: 1; overflow-y: auto; background-color: var(--modal-bg-light); border-top-left-radius: 20px; border-top-right-radius: 20px; }
+        .dark-mode .playlist-container { background-color: var(--modal-bg-dark); }
+        .playlist-item { display: flex; align-items: center; padding: 12px 24px; border-bottom: 1px solid var(--border-light); cursor: pointer; transition: background-color 0.2s; }
+        .dark-mode .playlist-item { border-bottom-color: var(--border-dark); }
+        .playlist-item.playing { background-color: var(--music-accent-light) !important; color: white; }
+        .dark-mode .playlist-item.playing { background-color: var(--music-accent-dark) !important; color: var(--text-dark); }
+        .playlist-item.playing .artist { color: rgba(255,255,255,0.8); }
+        .dark-mode .playlist-item.playing .artist { color: rgba(255,255,255,0.8); }
+        .playlist-item-art { width: 40px; height: 40px; border-radius: 6px; margin-right: 12px; object-fit: cover; }
+        .playlist-item-info .title { font-weight: 500; }
+        .playlist-item-info .artist { font-size: 0.8rem; color: var(--yt-text-secondary-light); }
+        .dark-mode .playlist-item-info .artist { color: var(--yt-text-secondary-dark); }
+        .playlist-item-playing-icon { margin-left: auto; display: none; font-size: 0.9rem; }
+        .playlist-item.playing .playlist-item-playing-icon { display: block; }
+        @keyframes bounce { 0%, 100% { transform: scaleY(0.5); } 50% { transform: scaleY(1); } }
+        .playlist-item-playing-icon span { display: inline-block; width: 2px; height: 12px; background-color: currentColor; margin: 0 1px; animation: bounce 1.2s infinite ease-in-out; }
+        .playlist-item-playing-icon span:nth-child(2) { animation-delay: -1.0s; }
+        .playlist-item-playing-icon span:nth-child(3) { animation-delay: -0.8s; }
+        .playlist-item-playing-icon span:nth-child(4) { animation-delay: -0.6s; }
+        #youtube-app .app-content { background: var(--phone-bg-light); }
+        .dark-mode #youtube-app .app-content { background: var(--phone-bg-dark); }
+        .youtube-fullscreen-button { background: none; border: none; color: var(--text-light); font-size: 1.1rem; cursor: pointer; margin-left: auto; padding: 8px; }
+        .dark-mode .youtube-fullscreen-button { color: var(--text-dark); }
+        .youtube-video-wrapper { width: 100%; background-color: #000; position: relative; transition: top 0.3s ease, left 0.3s ease, width 0.3s ease, height 0.3s ease; }
+        .youtube-video-wrapper video { width: 100%; height: 100%; display: block; object-fit: contain; }
+        .youtube-video-wrapper:not(.fullscreen) { aspect-ratio: 16 / 9; }
+        .youtube-video-error { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); color: white; text-align: center; padding: 10px; background-color: rgba(0,0,0,0.7); border-radius: 5px; font-size: 0.9rem; }
+        #youtube-app.yt-fullscreen-active .youtube-video-wrapper { position: absolute; top: -50px; left: 0; width: 100%; height: calc(100% + 50px + 50px); background-color: #000; z-index: 1000; }
+        #youtube-app.yt-fullscreen-active .youtube-content-wrapper { display: none; }
+        .phone-screen.yt-is-video-fullscreen .status-bar, .phone-screen.yt-is-video-fullscreen .bottom-nav-bar { display: none; }
+        .phone-screen.yt-is-video-fullscreen #youtube-app.active.yt-fullscreen-active { top: 0; height: 100%; }
+        .youtube-content-wrapper { padding: 12px; overflow-y: auto; flex-grow: 1; }
+        .video-title-yt { font-size: 1.1rem; font-weight: 600; margin-bottom: 6px; color: var(--text-light); }
+        .dark-mode .video-title-yt { color: var(--text-dark); }
+        .video-stats-yt { font-size: 0.8rem; color: var(--yt-text-secondary-light); margin-bottom: 10px; }
+        .dark-mode .video-stats-yt { color: var(--yt-text-secondary-dark); }
+        .channel-info-yt { display: flex; align-items: center; padding: 10px 0; border-top: 1px solid var(--yt-border-light); border-bottom: 1px solid var(--yt-border-light); }
+        .dark-mode .channel-info-yt { border-top-color: var(--yt-border-dark); border-bottom-color: var(--yt-border-dark); }
+        .channel-avatar-yt { width: 36px; height: 36px; border-radius: 50%; background-color: #cccccc; margin-right: 10px; display: flex; justify-content: center; align-items: center; font-weight: bold; color: #555555; }
+        .channel-name-subs-yt .channel-name { font-weight: 600; font-size: 0.9rem; }
+        .channel-name-subs-yt .subs-count { font-size: 0.75rem; color: var(--yt-text-secondary-light); }
+        .dark-mode .channel-name-subs-yt .subs-count { color: var(--yt-text-secondary-dark); }
+        .subscribe-button-yt { margin-left: auto; padding: 8px 12px; background-color: var(--yt-subscribe-bg-light); color: white; border: none; border-radius: 4px; font-size: 0.8rem; font-weight: 500; cursor: pointer; }
+        .action-buttons-yt { display: flex; justify-content: space-around; padding: 10px 0; margin-bottom: 10px; }
+        .action-button-yt { display: flex; flex-direction: column; align-items: center; font-size: 0.7rem; color: var(--yt-text-secondary-light); cursor: pointer; padding: 5px; border-radius: 4px; transition: background-color 0.2s; }
+        .action-button-yt i { font-size: 1.2rem; margin-bottom: 4px; color: var(--yt-icon-color-light); }
+        .description-box-yt { background-color: rgba(0,0,0,0.03); padding: 10px; border-radius: 8px; font-size: 0.85rem; line-height: 1.5; margin-bottom: 15px; }
+        .dark-mode .description-box-yt { background-color: rgba(255,255,255,0.05); }
+        .comments-section-yt h3 { font-size: 1rem; font-weight: 600; margin-bottom: 10px; }
+        .comment-yt { display: flex; margin-bottom: 12px; font-size: 0.8rem; }
+        .comment-avatar-yt { width: 28px; height: 28px; border-radius: 50%; background-color: #e0e0e0; margin-right: 8px; flex-shrink: 0; }
+        .comment-content-yt .comment-author { font-weight: 600; margin-right: 5px; }
+        .comment-content-yt .comment-text { line-height: 1.4; }
+    </style>
+</head>
+<body>
+    <div class="phone-container">
+        <div class="phone-screen" id="phoneScreen">
+            <div class="status-bar">
+                <span class="time" id="currentTime">09:30</span>
+                <span class="icons"><i class="fas fa-signal"></i><i class="fas fa-wifi"></i><i class="fas fa-battery-full"></i></span>
+            </div>
+
+            <div class="app-grid-container">
+                <div class="app-grid">
+                    <div class="app-icon" data-app="about"><div class="icon-bg bg-blue-500"><i class="fas fa-user"></i></div><span>Tentang Saya</span></div>
+                    <div class="app-icon" data-app="gallery"><div class="icon-bg bg-green-500"><i class="fas fa-images"></i></div><span>Galeri Waifu</span></div>
+                    <div class="app-icon" data-app="contact"><div class="icon-bg bg-red-500"><i class="fas fa-address-book"></i></div><span>Kontak</span></div>
+                    <div class="app-icon" data-app="music"><div class="icon-bg bg-pink-500"><i class="fas fa-music"></i></div><span>Musik</span></div>
+                    <div class="app-icon" data-app="youtube"><div class="icon-bg" style="background-color: #FF0000;"><i class="fab fa-youtube"></i></div><span>YouTube</span></div>
+                    <div class="app-icon" data-app="settings"><div class="icon-bg bg-gray-500"><i class="fas fa-cog"></i></div><span>Setelan</span></div>
+                    <div class="app-icon" data-app="kanzzai"><div class="icon-bg bg-purple-500"><i class="fas fa-robot"></i></div><span>KanzzAI</span></div>
+                </div>
+            </div>
+
+            <div id="about-app" class="app-modal"><!-- Konten diisi oleh JS --></div>
+            <div id="gallery-app" class="app-modal"><!-- Konten diisi oleh JS --></div>
+            <div id="contact-app" class="app-modal"><!-- Konten diisi oleh JS --></div>
+            <div id="music-app" class="app-modal"><!-- Konten diisi oleh JS --></div>
+            <div id="youtube-app" class="app-modal"><!-- Konten diisi oleh JS --></div>
+            <div id="kanzzai-app" class="app-modal"><!-- Konten diisi oleh JS --></div>
+
+            <div id="settings-app" class="app-modal">
+                <div class="app-header"><button class="back-button-app"><i class="fas fa-chevron-left"></i></button><span class="app-title">Setelan</span></div>
+                <div class="app-content">
+                    <div class="settings-item" data-app-link="about-phone">
+                        <span>Tentang ponsel</span>
+                        <i class="fas fa-chevron-right text-gray-400"></i>
+                    </div>
+                    <div class="settings-item">
+                        <span>Mode Gelap</span>
+                        <label class="toggle-switch"><input type="checkbox" id="darkModeToggle"><span class="slider"></span></label>
+                    </div>
+                </div>
+            </div>
+
+            <div id="about-phone-app" class="app-modal">
+                <div class="app-header"><button class="back-button-app"><i class="fas fa-chevron-left"></i></button><span class="app-title">Tentang Telepon</span></div>
+                <div class="app-content">
+                    <div class="os-version-card">
+                        <div class="os-logo">14</div>
+                        <div class="os-info">
+                            <h2>Versi MwanyOS</h2>
+                            <p>MwanyOS Global 14.0.2 Stabil</p>
+                        </div>
+                    </div>
+                    <div class="about-phone-grid">
+                        <div class="info-card">
+                            <div class="label">Nama perangkat</div>
+                            <div class="value">AmbaPhone GT1</div>
+                        </div>
+                        <div class="info-card storage">
+                            <div class="label">Penyimpanan</div>
+                            <div class="value">
+                                <span>Terpakai 88.7 GB / 128 GB</span>
+                                <div class="storage-bar">
+                                    <div class="storage-bar-fill"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="spec-list">
+                        <div class="spec-item">
+                            <span class="spec-label">Versi MwanyOS</span>
+                            <span class="spec-value">14.0.2.0(SJIDXM)</span>
+                        </div>
+                        <div class="spec-item">
+                            <span class="spec-label">Versi Android</span>
+                            <span class="spec-value">12 SKQ1.211019.001</span>
+                        </div>
+                        <div class="spec-item">
+                            <span class="spec-label">Update keamanan Android</span>
+                            <span class="spec-value">2023-06-01</span>
+                        </div>
+                        <div class="spec-item">
+                            <span class="spec-label">Info detail dan spesifikasi</span>
+                            <i class="fas fa-chevron-right"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="bottom-nav-bar">
+                <button class="nav-button" id="navBack"><i class="fas fa-chevron-left"></i></button>
+                <button class="nav-button" id="navHome"><i class="fas fa-home"></i></button>
+                <button class="nav-button" id="navRecents"><i class="far fa-square"></i></button>
+            </div>
+        </div>
+    </div>
+    
+    <div id="imageModal" class="image-modal">
+        <button class="close-image-modal" id="closeImageModal">×</button><img src="" alt="Gambar Waifu Fullscreen" id="fullImage">
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            // =================================================================
+            // INJEKSI KONTEN APLIKASI UNTUK MENGEMBALIKAN FUNGSI
+            // =================================================================
+            // About App
+            document.getElementById('about-app').innerHTML = `
+                <div class="app-header"><button class="back-button-app"><i class="fas fa-chevron-left"></i></button><span class="app-title">Tentang Saya</span></div>
+                <div class="app-content about-content">
+                    <h2>Muhammad Furqon (KanzzXD)</h2>
+                    <p><strong>Nama Panggilan:</strong> KanzzXD</p><p><strong>Hobi:</strong> Main game</p>
+                    <p><strong>Makanan Favorit:</strong> Nasi Goreng</p><p><strong>Hewan Favorit:</strong> Kucing</p>
+                    <hr class="my-4 border-gray-200 dark:border-gray-600">
+                    <p>Halo, nama saya Muhammad Furqon, nickname saya KanzzXD. Saya berasal dari Kalimantan Selatan, tepatnya di Banjarmasin. Saya seorang developer bot WhatsApp yang masih pemula. Saya sebenarnya tidak bersekolah khusus tentang pemrograman/coding; saya hanya belajar dari internet dan beberapa teman saya.</p>
+                </div>`;
+            // Gallery App
+            document.getElementById('gallery-app').innerHTML = `
+                <div class="app-header"><button class="back-button-app"><i class="fas fa-chevron-left"></i></button><span class="app-title">Galeri Waifu</span></div>
+                <div class="app-content"><div class="gallery-grid"></div></div>`;
+            // Contact App
+            document.getElementById('contact-app').innerHTML = `
+                <div class="app-header"><button class="back-button-app"><i class="fas fa-chevron-left"></i></button><span class="app-title">Kontak Saya</span></div>
+                <div class="app-content">
+                    <a href="https://wa.me/6283104268179" target="_blank" class="contact-button" style="background-color: #25D366;"><i class="fab fa-whatsapp"></i> WhatsApp</a>
+                    <a href="https://instagram.com/kanzgt" target="_blank" class="contact-button" style="background-color: #E1306C;"><i class="fab fa-instagram"></i> Instagram</a>
+                    <a href="https://tiktok.com/@kanzzbruh" target="_blank" class="contact-button" style="background-color: #010101;"><i class="fab fa-tiktok"></i> TikTok</a>
+                </div>`;
+            // Music App
+            document.getElementById('music-app').innerHTML = `
+                <div class="app-header"><button class="back-button-app"><i class="fas fa-chevron-left"></i></button><span class="app-title">Lagi Diputar</span></div>
+                <div class="app-content">
+                    <div class="music-player-container">
+                        <img src="https://placehold.co/300x300/3b82f6/ffffff?text=Pilih+Lagu" alt="Album Art" id="music-album-art">
+                        <h2 id="music-song-title">Pilih sebuah lagu</h2>
+                        <p id="music-song-artist">Tidak ada lagu yang diputar</p>
+                        <div class="music-progress-container" id="musicProgressContainer"><div id="music-progress-bar"></div></div>
+                        <div class="music-time-container"><span id="music-current-time">0:00</span><span id="music-duration">0:00</span></div>
+                        <div class="music-controls">
+                            <button class="music-control-btn" id="music-shuffle-btn"><i class="fas fa-random"></i></button>
+                            <button class="music-control-btn" id="music-prev-btn"><i class="fas fa-step-backward"></i></button>
+                            <button class="music-control-btn" id="music-play-pause-btn"><i class="fas fa-play"></i></button>
+                            <button class="music-control-btn" id="music-next-btn"><i class="fas fa-step-forward"></i></button>
+                            <button class="music-control-btn" id="music-repeat-btn"><i class="fas fa-redo"></i></button>
+                        </div>
+                    </div>
+                    <div class="playlist-container" id="playlistContainer"></div>
+                    <audio id="main-audio-player" style="display: none;"></audio>
+                </div>`;
+            // YouTube App
+            document.getElementById('youtube-app').innerHTML = `
+                <div class="app-header">
+                    <button class="back-button-app"><i class="fas fa-chevron-left"></i></button><span class="app-title">YouTube</span>
+                    <button id="youtubeFullscreenButton" class="youtube-fullscreen-button"><i class="fas fa-expand"></i></button>
+                </div>
+                <div class="app-content">
+                    <div class="youtube-video-wrapper" id="youtubeVideoWrapper"></div>
+                    <div class="youtube-content-wrapper" id="youtubeInfoContainer"></div>
+                </div>`;
+            // KanzzAI App
+            document.getElementById('kanzzai-app').innerHTML = `
+                <div class="app-header"><button class="back-button-app"><i class="fas fa-chevron-left"></i></button><span class="app-title">KanzzAI</span></div>
+                <div class="app-content">
+                    <div class="chat-messages" id="chatMessages"></div>
+                    <div class="chat-input-area"><input type="text" id="chatInput" placeholder="Ketik pesanmu ke KanzzAI..."><button id="sendChatButton"><i class="fas fa-paper-plane"></i></button></div>
+                </div>`;
+
+            // =================================================================
+            // DEKLARASI VARIABEL DAN LOGIKA UTAMA
+            // =================================================================
+            const phoneScreen = document.getElementById('phoneScreen');
+            const appIcons = document.querySelectorAll('.app-icon');
+            const appLinks = document.querySelectorAll('[data-app-link]'); // Untuk link di dalam aplikasi
+            const appModals = document.querySelectorAll('.app-modal');
+            const appBackButtons = document.querySelectorAll('.app-modal .back-button-app');
+            const currentTimeEl = document.getElementById('currentTime');
+            const navBackButton = document.getElementById('navBack');
+            const navHomeButton = document.getElementById('navHome');
+            const navRecentsButton = document.getElementById('navRecents');
+            let activeModal = null;
+            let historyStack = [];
+
+            // General App Elements
+            const galleryGrid = document.querySelector('#gallery-app .gallery-grid');
+            const imageModal = document.getElementById('imageModal');
+            const fullImage = document.getElementById('fullImage');
+            const closeImageModalButton = document.getElementById('closeImageModal');
+            const darkModeToggle = document.getElementById('darkModeToggle');
+            const chatMessagesContainer = document.getElementById('chatMessages');
+            const chatInput = document.getElementById('chatInput');
+            const sendChatButton = document.getElementById('sendChatButton');
+            const youtubeApp = document.getElementById('youtube-app');
+            const youtubeVideoWrapper = document.getElementById('youtubeVideoWrapper');
+            const youtubeInfoContainer = document.getElementById('youtubeInfoContainer');
+            const youtubeFullscreenButton = document.getElementById('youtubeFullscreenButton');
+            
+            // Music App Elements & Logic (FULL)
+            const mainAudio = document.getElementById('main-audio-player');
+            const playPauseBtn = document.getElementById('music-play-pause-btn');
+            const prevBtn = document.getElementById('music-prev-btn');
+            const nextBtn = document.getElementById('music-next-btn');
+            const shuffleBtn = document.getElementById('music-shuffle-btn');
+            const repeatBtn = document.getElementById('music-repeat-btn');
+            const albumArt = document.getElementById('music-album-art');
+            const songTitle = document.getElementById('music-song-title');
+            const songArtist = document.getElementById('music-song-artist');
+            const progressContainer = document.getElementById('musicProgressContainer');
+            const progressBar = document.getElementById('music-progress-bar');
+            const currentTimeElMusic = document.getElementById('music-current-time');
+            const durationElMusic = document.getElementById('music-duration');
+            const playlistContainer = document.getElementById('playlistContainer');
+            const music_songs = [
+                { title: "Blue", artist: "Yung Kai", url: "https://c.top4top.io/m_3430z4zjn0.mp3", art: 'https://placehold.co/300x300/3b82f6/ffffff?text=Blue' },
+                { title: "Heather x Eyes Blue", artist: "Mashup", url: "https://j.top4top.io/m_3430t41rp0.mp3", art: 'https://placehold.co/300x300/9333ea/ffffff?text=Heather' },
+                { title: "Heat Waves", artist: "Glass Animals", url: "https://a.top4top.io/m_3431y48ak0.mp3", art: 'https://placehold.co/300x300/f59e0b/ffffff?text=Heat+Waves' }
+            ];
+            let originalPlaylist = [...music_songs];
+            let currentPlaylist = [...music_songs];
+            let currentSongIndex = 0;
+            let isPlaying = false;
+            let isShuffle = false;
+            let repeatMode = 'none';
+            function loadPlaylist() { playlistContainer.innerHTML = ''; currentPlaylist.forEach((song, index) => { const item = document.createElement('div'); item.classList.add('playlist-item'); item.dataset.index = index; item.innerHTML = `<img src="${song.art}" alt="${song.title}" class="playlist-item-art"><div class="playlist-item-info"><div class="title">${song.title}</div><div class="artist">${song.artist}</div></div><div class="playlist-item-playing-icon"><span></span><span></span><span></span><span></span></div>`; item.addEventListener('click', () => { currentSongIndex = index; loadSong(currentPlaylist[currentSongIndex]); playSong(); }); playlistContainer.appendChild(item); }); }
+            function loadSong(song) { songTitle.textContent = song.title; songArtist.textContent = song.artist; albumArt.src = song.art; mainAudio.src = song.url; document.querySelectorAll('.playlist-item').forEach(item => { item.classList.remove('playing'); }); const currentItem = document.querySelector(`.playlist-item[data-index="${currentSongIndex}"]`); if (currentItem) { currentItem.classList.add('playing'); } }
+            function playSong() { isPlaying = true; mainAudio.play(); playPauseBtn.innerHTML = '<i class="fas fa-pause"></i>'; }
+            function pauseSong() { isPlaying = false; mainAudio.pause(); playPauseBtn.innerHTML = '<i class="fas fa-play"></i>'; }
+            function prevSong() { currentSongIndex--; if (currentSongIndex < 0) { currentSongIndex = currentPlaylist.length - 1; } loadSong(currentPlaylist[currentSongIndex]); playSong(); }
+            function nextSong() { currentSongIndex++; if (currentSongIndex > currentPlaylist.length - 1) { currentSongIndex = 0; } loadSong(currentPlaylist[currentSongIndex]); playSong(); }
+            function updateProgress(e) { const { duration, currentTime } = e.srcElement; if (!isNaN(duration)) { const progressPercent = (currentTime / duration) * 100; progressBar.style.width = `${progressPercent}%`; durationElMusic.textContent = formatTime(duration); currentTimeElMusic.textContent = formatTime(currentTime); } }
+            function setProgress(e) { const width = this.clientWidth; const clickX = e.offsetX; const duration = mainAudio.duration; if (!isNaN(duration)) { mainAudio.currentTime = (clickX / width) * duration; } }
+            function handleSongEnd() { if (repeatMode === 'one') { loadSong(currentPlaylist[currentSongIndex]); playSong(); } else if (repeatMode === 'all') { nextSong(); } else { if (currentSongIndex < currentPlaylist.length - 1) { nextSong(); } else { pauseSong(); } } }
+            function toggleShuffle() { isShuffle = !isShuffle; shuffleBtn.classList.toggle('active', isShuffle); if (isShuffle) { let shuffled = [...originalPlaylist]; for (let i = shuffled.length - 1; i > 0; i--) { const j = Math.floor(Math.random() * (i + 1)); [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]]; } currentPlaylist = shuffled; } else { currentPlaylist = [...originalPlaylist]; } currentSongIndex = mainAudio.src ? currentPlaylist.findIndex(song => song.url === mainAudio.src.split('?')[0]) : 0; if (currentSongIndex === -1) currentSongIndex = 0; loadPlaylist(); loadSong(currentPlaylist[currentSongIndex]); if (!isPlaying) pauseSong(); else playSong(); }
+            function toggleRepeat() { if (repeatMode === 'none') { repeatMode = 'all'; repeatBtn.classList.add('active'); repeatBtn.innerHTML = '<i class="fas fa-redo-alt"></i>'; } else if (repeatMode === 'all') { repeatMode = 'one'; repeatBtn.innerHTML = '<i class="fas fa-redo-alt"></i><sup>1</sup>'; } else { repeatMode = 'none'; repeatBtn.classList.remove('active'); repeatBtn.innerHTML = '<i class="fas fa-redo"></i>'; } }
+            function formatTime(seconds) { const min = Math.floor(seconds / 60); const sec = Math.floor(seconds % 60).toString().padStart(2, '0'); return `${min}:${sec}`; }
+            if(playPauseBtn) playPauseBtn.addEventListener('click', () => (isPlaying ? pauseSong() : playSong()));
+            if(prevBtn) prevBtn.addEventListener('click', prevSong);
+            if(nextBtn) nextBtn.addEventListener('click', nextSong);
+            if(mainAudio) mainAudio.addEventListener('timeupdate', updateProgress);
+            if(progressContainer) progressContainer.addEventListener('click', setProgress);
+            if(mainAudio) mainAudio.addEventListener('ended', handleSongEnd);
+            if(shuffleBtn) shuffleBtn.addEventListener('click', toggleShuffle);
+            if(repeatBtn) repeatBtn.addEventListener('click', toggleRepeat);
+
+            // YouTube App Logic (FULL)
+            let currentYoutubePlayer = null;
+            const youtubeVideoData = {
+                videoUrl: "https://i.top4top.io/m_3448u3m7t0.mp4",
+                title: "Kucing", views: "1,234,567", uploadDate: "14 Mei 2025",
+                channel: { name: "Topi Sihir Animation", avatarChar: "T", subscribers: "1.2M" },
+                likes: "500K", description: "VIDIO BERASAL DARI CHANEL YOUTUBE TOPI SIHIR ANIMATION",
+                comments: [ { author: "KanzzXD", text: "Keren...", avatarChar: "K"}, { author: "Sasha", text: "Seru Bang😍", avatarChar: "S"}, { author: "Pecinta Nasgor", text: "Pertama.", avatarChar: "P"} ]
+            };
+            function loadYoutubeVideo() { if (!youtubeVideoWrapper) return; youtubeVideoWrapper.innerHTML = ''; currentYoutubePlayer = document.createElement('video'); currentYoutubePlayer.src = youtubeVideoData.videoUrl; currentYoutubePlayer.controls = true; currentYoutubePlayer.autoplay = false; currentYoutubePlayer.onerror = function() { console.error("Error loading video:", youtubeVideoData.videoUrl); youtubeVideoWrapper.innerHTML = `<div class="youtube-video-error"><i class="fas fa-exclamation-triangle"></i><br>Gagal memuat video.</div>`; currentYoutubePlayer = null; }; youtubeVideoWrapper.appendChild(currentYoutubePlayer); }
+            function loadYoutubeVideoDetails() { if (!youtubeInfoContainer) return; const data = youtubeVideoData; youtubeInfoContainer.innerHTML = `<h2 class="video-title-yt">${data.title}</h2><p class="video-stats-yt">${data.views} views • ${data.uploadDate}</p><div class="channel-info-yt"><div class="channel-avatar-yt">${data.channel.avatarChar}</div><div class="channel-name-subs-yt"><p class="channel-name">${data.channel.name}</p><p class="subs-count">${data.channel.subscribers} subscribers</p></div><button class="subscribe-button-yt">Subscribe</button></div><div class="action-buttons-yt"><button class="action-button-yt"><i class="fas fa-thumbs-up"></i><span>${data.likes}</span></button><button class="action-button-yt"><i class="fas fa-thumbs-down"></i><span>Dislike</span></button><button class="action-button-yt"><i class="fas fa-share"></i><span>Share</span></button><button class="action-button-yt"><i class="fas fa-download"></i><span>Download</span></button><button class="action-button-yt"><i class="fas fa-plus-square"></i><span>Save</span></button></div><div class="description-box-yt"><strong>${data.channel.name}</strong> ${data.uploadDate}<br>${data.description.replace(/\n/g, '<br>')}</div><div class="comments-section-yt"><h3>Comments ${data.comments.length}</h3>${data.comments.map(c => `<div class="comment-yt"><div class="comment-avatar-yt" style="background-color:#${Math.floor(Math.random()*16777215).toString(16).padStart(6, '0')};color:white;">${c.avatarChar}</div><div class="comment-content-yt"><span class="comment-author">${c.author}</span><span class="comment-text">${c.text}</span></div></div>`).join('')}</div>`; }
+            function toggleYoutubeFullscreen() { if (!youtubeApp || !youtubeVideoWrapper || !youtubeFullscreenButton) return; const isFullscreen = youtubeApp.classList.toggle('yt-fullscreen-active'); phoneScreen.classList.toggle('yt-is-video-fullscreen', isFullscreen); youtubeVideoWrapper.classList.toggle('fullscreen', isFullscreen); const icon = youtubeFullscreenButton.querySelector('i'); if (isFullscreen) { icon.classList.replace('fa-expand', 'fa-compress'); } else { icon.classList.replace('fa-compress', 'fa-expand'); } }
+            if(youtubeFullscreenButton) youtubeFullscreenButton.addEventListener('click', toggleYoutubeFullscreen);
+
+            // Gallery App Logic
+            const galleryImages = [ 'https://g.top4top.io/p_3426znkil0.jpeg', 'https://j.top4top.io/p_342783rk90.jpeg', 'https://h.top4top.io/p_3427ml5lr0.jpeg', 'https://b.top4top.io/p_342716iew0.jpeg', 'https://f.top4top.io/p_342691t2u0.jpeg', 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT6dEzkhEr3bXIZXMDkSt7sjNKY3_LY1QaQyKWjMDl3bzWZUT-EOEwTZ-qo&s=10' ];
+            if (galleryGrid) { galleryImages.forEach(src => { const img = document.createElement('img'); img.src = src; img.alt = 'Gambar Waifu'; img.onerror = function() { this.src='https://placehold.co/100x100/cccccc/ffffff?text=Error'; }; img.addEventListener('click', () => openImageModal(src)); galleryGrid.appendChild(img); }); }
+            function openImageModal(src) { if(fullImage) fullImage.src = src; if(imageModal) imageModal.classList.add('active'); }
+            function closeImageModal() { if(imageModal) imageModal.classList.remove('active'); }
+            if(closeImageModalButton) closeImageModalButton.addEventListener('click', closeImageModal);
+            if(imageModal) imageModal.addEventListener('click', (e) => { if (e.target === imageModal) closeImageModal(); });
+
+            // KanzzAI Logic (FULL)
+            const kanzzInitialMessage = "Wassap bro/sis! 🤘 KanzzAI nih, AI paling sabi buat nemenin lo ngobrol. Tapi inget, gue bukan buat ngerjain PR atau tugas sekolah ya, hehe. Kuy lah ngobrol santai! 😉";
+            function initializeKanzzChat() { if (chatMessagesContainer) { if(chatMessagesContainer.innerHTML === "") { addMessageToChat(kanzzInitialMessage, "ai"); } } }
+            function addMessageToChat(text, sender) { if (!chatMessagesContainer) return; const msgDiv = document.createElement('div'); msgDiv.classList.add('message', sender); msgDiv.textContent = text; chatMessagesContainer.appendChild(msgDiv); chatMessagesContainer.scrollTop = chatMessagesContainer.scrollHeight; }
+            function getKanzzAIResponse(userInput) { return "Woilah, mantap! Gue denger lo bilang \"" + userInput + "\", keren juga. Ada lagi yang mau diomongin?"; }
+            function handleChatSend() { const userInput = chatInput.value.trim(); if (userInput === "") return; addMessageToChat(userInput, "user"); chatInput.value = ""; sendChatButton.disabled = true; setTimeout(() => { const aiResponse = getKanzzAIResponse(userInput); addMessageToChat(aiResponse, "ai"); sendChatButton.disabled = false; }, 800); }
+            if(sendChatButton) sendChatButton.addEventListener('click', handleChatSend);
+            if(chatInput) chatInput.addEventListener('keypress', (e) => { if (e.key === 'Enter') handleChatSend(); });
+
+            // Dark Mode & Time Logic
+            if (darkModeToggle) { if (localStorage.getItem('darkMode') === 'enabled') { phoneScreen.classList.add('dark-mode'); darkModeToggle.checked = true; } darkModeToggle.addEventListener('change', () => { phoneScreen.classList.toggle('dark-mode'); localStorage.setItem('darkMode', phoneScreen.classList.contains('dark-mode') ? 'enabled' : 'disabled'); }); }
+            function updateTime() { const now = new Date(); currentTimeEl.textContent = `${String(now.getHours()).padStart(2,'0')}:${String(now.getMinutes()).padStart(2,'0')}`; }
+
+            // Core Navigation Logic
+            function openApp(appName) {
+                closeAllApps(false);
+                const targetModal = document.getElementById(`${appName}-app`);
+                if (targetModal) {
+                    targetModal.classList.add('active');
+                    activeModal = targetModal;
+                    if (historyStack[historyStack.length - 1] !== appName) historyStack.push(appName);
+                    
+                    if (appName === 'music') { if (playlistContainer.innerHTML === "") loadPlaylist(); if(mainAudio.src) { loadSong(currentPlaylist[currentSongIndex]); if(isPlaying) playSong(); } } 
+                    else if (appName === 'youtube') { if (youtubeVideoWrapper.innerHTML === "") { loadYoutubeVideo(); loadYoutubeVideoDetails(); } if (youtubeApp.classList.contains('yt-fullscreen-active')) { toggleYoutubeFullscreen(); } const wrapper = targetModal.querySelector('.youtube-content-wrapper'); if(wrapper) wrapper.scrollTop = 0; }
+                    else if (appName === 'kanzzai') { initializeKanzzChat(); }
+                }
+            }
+            function closeApp(modal, fromHistory = true) {
+                if (!modal) return;
+                const appName = modal.id.replace('-app', '');
+                if (appName === 'youtube' && youtubeApp.classList.contains('yt-fullscreen-active')) { toggleYoutubeFullscreen(); }
+                if (appName === 'youtube' && currentYoutubePlayer) { currentYoutubePlayer.pause(); }
+                modal.classList.remove('active');
+                if (activeModal === modal) activeModal = null;
+                if (fromHistory) { if (historyStack[historyStack.length - 1] === appName) { historyStack.pop(); } }
+            }
+            function closeAllApps(clearHistory = true) {
+                if (mainAudio && !mainAudio.paused) pauseSong();
+                appModals.forEach(modal => closeApp(modal, false));
+                if (clearHistory) historyStack = [];
+            }
+            
+            // Event Listeners
+            appIcons.forEach(icon => icon.addEventListener('click', () => openApp(icon.dataset.app)));
+            appLinks.forEach(link => link.addEventListener('click', () => openApp(link.dataset.appLink)));
+            appBackButtons.forEach(button => button.addEventListener('click', () => closeApp(button.closest('.app-modal'))));
+            navHomeButton.addEventListener('click', () => closeAllApps(true));
+            navBackButton.addEventListener('click', () => {
+                if (activeModal) {
+                    if (activeModal.id === 'youtube-app' && youtubeApp.classList.contains('yt-fullscreen-active')) { toggleYoutubeFullscreen(); return; }
+                    closeApp(activeModal);
+                    if (historyStack.length > 0) { openApp(historyStack[historyStack.length - 1]); }
+                }
+            });
+            
+            // Initial load
+            updateTime();
+            setInterval(updateTime, 30000);
+        });
+    </script>
+</body>
+</html>
